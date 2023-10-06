@@ -11,11 +11,17 @@ import java.util.Date;
  * @author Laptop
  */
 public class Students {
+    private String Sid;
     private String Sname;
-    private String Sclass;
+    private String Sgroup;
     private String Scourse;
     private boolean Sgender;
     private Date Sdob;
+    private Departments Sdept;
+    
+    public String getSid() {
+        return Sid;
+    }
 
     public String getSname() {
         return Sname;
@@ -25,12 +31,12 @@ public class Students {
         this.Sname = Sname;
     }
 
-    public String getSclass() {
-        return Sclass;
+    public String getGroup() {
+        return Sgroup;
     }
 
-    public void setSclass(String Sclass) {
-        this.Sclass = Sclass;
+    public void setGroup(String Sgroup) {
+        this.Sgroup = Sgroup;
     }
 
     public String getScourse() {
