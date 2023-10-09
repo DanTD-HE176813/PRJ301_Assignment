@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Điểm danh học sinh</title>
+</head>
+<body>
+    <h1>Điểm danh học sinh</h1>
+    <p>Bấm vào tên học sinh để đánh dấu họ đã điểm danh.</p>
+
+    <ul id="studentList">
+        <li><span id="student1">Học sinh 1</span></li>
+        <li><span id="student2">Học sinh 2</span></li>
+        <li><span id="student3">Học sinh 3</span></li>
+        <li><span id="student4">Học sinh 4</span></li>
+        <li><span id="student5">Học sinh 5</span></li>
+    </ul>
+
+    <script>
+        // Function để kiểm tra điểm danh và thay đổi màu chữ
+        function danhDauDiemDanh(studentId) {
+            const studentSpan = document.getElementById(studentId);
+            studentSpan.style.color = "green";
+        }
+
+        // Bắt sự kiện khi bấm vào tên học sinh
+        document.getElementById('student1').addEventListener('click', function () {
+            danhDauDiemDanh('student1');
+        });
+        document.getElementById('student2').addEventListener('click', function () {
+            danhDauDiemDanh('student2');
+        });
+        document.getElementById('student3').addEventListener('click', function () {
+            danhDauDiemDanh('student3');
+        });
+        document.getElementById('student4').addEventListener('click', function () {
+            danhDauDiemDanh('student4');
+        });
+        document.getElementById('student5').addEventListener('click', function () {
+            danhDauDiemDanh('student5');
+        });
+    </script>
+</body>
+</html>
