@@ -35,8 +35,8 @@ public class UserDBContext extends DBContext<User>{
     @Override
     public User get(User model) {
         try {
-            String sql = "SELECT sid,spassword FROM [login]\n"
-                    + "WHERE sid = ? AND [spassword] = ?";
+            String sql = "SELECT username,displayname FROM [User]\n"
+                    + "WHERE username = ? AND [password] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, model.getUsername());
             stm.setString(2, model.getPassword());
@@ -45,7 +45,7 @@ public class UserDBContext extends DBContext<User>{
             {
                 User user = new User();
                 user.setUsername(model.getUsername());
-                user.setDisplayname(rs.getString("sid"));
+                user.setDisplayname(rs.getString("displayname"));
                 return user;
             }
         } catch (SQLException ex) {

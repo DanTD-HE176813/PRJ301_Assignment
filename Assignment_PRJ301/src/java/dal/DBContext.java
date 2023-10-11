@@ -22,7 +22,7 @@ public abstract class DBContext<T extends IBaseModel> {
     {
         
         try {
-            String url = "jdbc:sqlserver://DESKTOP-KGDOMPC\\SQLEXPRESS:1433;databaseName=TEST";
+            String url = "jdbc:sqlserver://DESKTOP-KGDOMPCs:1433;databaseName=ASSIGNMENT_DATABASE";
             String user = "sa";
             String pass = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

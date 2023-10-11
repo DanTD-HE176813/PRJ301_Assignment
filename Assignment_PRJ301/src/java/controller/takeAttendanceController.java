@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dal.UserDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +11,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import dal.User;
+import java.util.ArrayList;
+import objects.Students;
 
 /**
  *
  * @author Laptop
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "takeAttendanceController", urlPatterns = {"/attendance"})
+public class takeAttendanceController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,12 +30,18 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+//        StudentDBContext db = new StudentDBContext();
+//        ArrayList<Students> students = db.list();
+//        request.setAttribute("students", students);
+        request.getRequestDispatcher("/view/takeAttendance.jsp").forward(request, response);
+        
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -44,7 +50,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("view/login.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -54,25 +60,11 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        User param = new User();
-        param.setUsername(username);
-        param.setPassword(password);
-        UserDBContext db = new UserDBContext();
-        User loggedUser = db.get(param);
-        if(loggedUser != null)
-        {
-            response.getWriter().println("Hello " + loggedUser.getDisplayname());
-        }
-        else
-        {
-            response.getWriter().println("invalid username or password!");
-        }
-        
+        processRequest(request, response);
     }
 
     /**
