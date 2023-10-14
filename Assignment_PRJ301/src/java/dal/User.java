@@ -9,7 +9,7 @@ package dal;
  *
  * @author Laptop
  */
-public class User implements IBaseModel{
+public class User implements IBaseModel {
     private String username;
     private String password;
     private String displayname;
@@ -37,4 +37,5 @@ public class User implements IBaseModel{
     public void setDisplayname(String displayname) {
         this.displayname = displayname;
     }
+    
 }

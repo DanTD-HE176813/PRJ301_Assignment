@@ -8,6 +8,6 @@ package dal;
  *
  * @author Laptop
  */
-interface IBaseModel {
+public interface IBaseModel {
     
 }

@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  *
  * @author Laptop
  */
-public class UserDBContext extends DBContext<User>{
-    
+public class UserDBContext extends DBContext<User> {
+
     @Override
     public void insert(User model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -58,4 +58,5 @@ public class UserDBContext extends DBContext<User>{
     public ArrayList<User> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }

@@ -11,18 +11,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Laptop
- * @param <T>
- */
+
 public abstract class DBContext<T extends IBaseModel> {
     protected Connection connection;
     public DBContext()
     {
-        
         try {
-            String url = "jdbc:sqlserver://DESKTOP-KGDOMPCs:1433;databaseName=ASSIGNMENT_DATABASE";
+            String url = "jdbc:sqlserver://DESKTOP-KGDOMPC:1433;databaseName=ASSIGNMENT_DATABASE";
             String user = "sa";
             String pass = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -34,7 +29,8 @@ public abstract class DBContext<T extends IBaseModel> {
         }
         
     }
-     public abstract void insert(T model);
+    
+    public abstract void insert(T model);
     public abstract void update(T model);
     public abstract void remove(T model);
     public abstract T get(T model);
