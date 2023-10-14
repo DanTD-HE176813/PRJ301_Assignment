@@ -55,10 +55,10 @@
         <h2>Đăng Nhập</h2>
         <form action="login" method="POST">
             <label for="username">Tên đăng nhập:</label>
-            <input type="text" id="sid" name="sid" required>
+            <input type="text" name="username" required>
 
             <label for="password">Mật khẩu:</label>
-            <input type="password" id="spassword" name="spassword" required>
+            <input type="password" name="password" required>
 
             <button type="submit">Đăng Nhập</button>
         </form>
