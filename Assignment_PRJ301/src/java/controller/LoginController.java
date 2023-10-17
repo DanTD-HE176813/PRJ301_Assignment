@@ -54,7 +54,7 @@ public class LoginController extends HttpServlet {
         User loggedUser = db.get(param);
         if(loggedUser != null)
         {
-            response.getWriter().println("Hello " + loggedUser.getDisplayname());
+            request.getRequestDispatcher("view/welcome.jsp").forward(request, response);
         }
         else
         {

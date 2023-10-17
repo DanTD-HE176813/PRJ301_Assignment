@@ -35,7 +35,7 @@ public class takeAttendanceController extends HttpServlet {
 //        StudentDBContext db = new StudentDBContext();
 //        ArrayList<Students> students = db.list();
 //        request.setAttribute("students", students);
-        request.getRequestDispatcher("/view/takeAttendance.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/schedule.jsp").forward(request, response);
         
     } 
 
