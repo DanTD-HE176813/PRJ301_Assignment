@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,12 +29,19 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="password"], input[type="checkbox"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 5px;
         }
         button {
             width: 100%;
@@ -59,6 +66,11 @@
 
             <label for="password">Mật khẩu:</label>
             <input type="password" name="password" required>
+
+            <div class="checkbox-label">
+                <input type="checkbox" name="remember">
+                <label for="remember">Ghi nhớ đăng nhập</label>
+            </div>
 
             <button type="submit">Đăng Nhập</button>
         </form>
