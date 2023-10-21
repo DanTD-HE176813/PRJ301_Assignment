@@ -14,7 +14,8 @@ import java.util.Date;
 public class Students implements IBaseModel{
     private int id;
     private String name;
-
+    private Date dob;
+    private boolean gender;
 
     public int getId() {
         return id;
@@ -32,7 +33,19 @@ public class Students implements IBaseModel{
         this.name = name;
     }
 
-    
-    
-    
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    } 
 }
