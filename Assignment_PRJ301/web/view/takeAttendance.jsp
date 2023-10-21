@@ -1,76 +1,83 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điểm Danh Sinh Viên</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            }
 
-        h1 {
-            color: #333;
-        }
+            h1 {
+                text-align: center;
+                margin-top: 20px;
+            }
 
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-        }
+            table {
+                width: 80%;
+                margin: 0 auto;
+                background-color: #fff;
+                border-collapse: collapse;
+                border-radius: 5px;
+            }
 
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
+            th {
+                background-color: #4287f5;
+                color: #fff;
+                padding: 10px;
+            }
 
-        th {
-            background-color: #f2f2f2;
-        }
+            td {
+                padding: 10px;
+            }
 
-        td {
-            text-align: center;
-        }
+            input[type="radio"] {
+                margin-right: 5px;
+            }
 
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>Điểm Danh Sinh Viên</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Tên Sinh Viên</th>
-                <th>Điểm Danh</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Nguyễn Văn A</td>
-                <td><button onclick="diemDanh(this)">Điểm Danh</button></td>
-            </tr>
-            <tr>
-                <td>Trần Thị B</td>
-                <td><button onclick="diemDanh(this)">Điểm Danh</button></td>
-            </tr>
-            <button type="submit">save</button>
-            <!-- Thêm các hàng khác cho các sinh viên khác -->
-        </tbody>
-    </table>
+            label {
+                font-weight: bold;
+            }
 
-    <script>
-        function diemDanh(button) {
-            button.textContent = "Đã Điểm Danh";
-            button.disabled = true;
-        }
-    </script>
-</body>
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            tr:nth-child(odd) {
+                background-color: #fff;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h1>Điểm Danh Sinh Viên</h1>
+        <form action="processAttendance.jsp" method="post">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Điểm danh</th>
+                </tr>
+                <c:forEach items="${requestScope.students}" var="s">
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.id}</td>
+                        <td>
+                            <input type="radio" id="attendance_${s.id}" name="attendance_${s.id}" value="Present" checked>
+                            <label for="attendance_${s.id}">Present</label>
+                            <input type="radio" id="absent_${s.id}" name="attendance_${s.id}" value="Absent">
+                            <label for="absent_${s.id}">Absent</label>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <br>
+            <input type="submit" value="Gửi Điểm Danh">
+        </form>
+    </body>
 </html>

@@ -8,28 +8,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 80vh;
+            height: 100vh;
             margin: 0;
         }
         .login-container {
             width: 300px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
             text-align: center;
+            color: #007bff;
         }
         label {
             display: block;
             margin-bottom: 5px;
+            color: #333;
         }
-        input[type="text"], input[type="password"], input[type="checkbox"] {
+        input[type="text"], input[type="password"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -40,7 +42,7 @@
             display: flex;
             align-items: center;
         }
-        .checkbox-label input[type="checkbox"] {
+        input[type="checkbox"] {
             margin-right: 5px;
         }
         button {
@@ -59,21 +61,25 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Đăng Nhập</h2>
-        <form action="login" method="POST">
-            <label for="username">Tên đăng nhập:</label>
-            <input type="text" name="username" required>
+        <header>
+            <h2>Đăng Nhập</h2>
+        </header>
+        <main>
+            <form action="login" method="POST">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" name="username" required>
 
-            <label for="password">Mật khẩu:</label>
-            <input type="password" name="password" required>
+                <label for="password">Mật khẩu:</label>
+                <input type="password" name="password" required>
 
-            <div class="checkbox-label">
-                <input type="checkbox" name="remember">
-                <label for="remember">Ghi nhớ đăng nhập</label>
-            </div>
+                <label class="checkbox-label" for="remember">
+                    <input type="checkbox" id="remember" name="remember">
+                    Ghi nhớ đăng nhập
+                </label>
 
-            <button type="submit">Đăng Nhập</button>
-        </form>
+                <button type="submit">Đăng Nhập</button>
+            </form>
+        </main>
     </div>
 </body>
 </html>

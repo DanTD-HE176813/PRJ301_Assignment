@@ -29,10 +29,7 @@ public abstract class DBContext<T extends IBaseModel> {
         }
         
     }
-    
-    public abstract void insert(T model);
-    public abstract void update(T model);
-    public abstract void remove(T model);
+
     public abstract T get(T model);
     public abstract ArrayList<T> list();
 }
