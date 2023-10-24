@@ -11,11 +11,13 @@ import java.util.Date;
  *
  * @author Laptop
  */
-public class Students implements IBaseModel{
+public class Students implements IBaseModel {
+
     private int id;
     private String name;
     private Date dob;
     private boolean gender;
+    private boolean attendance = false;
 
     public int getId() {
         return id;
@@ -47,5 +49,14 @@ public class Students implements IBaseModel{
 
     public void setGender(boolean gender) {
         this.gender = gender;
-    } 
+    }
+
+    public boolean isAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(boolean attendance) {
+        this.attendance = attendance;
+    }
+
 }

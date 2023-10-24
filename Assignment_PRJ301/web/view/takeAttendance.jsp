@@ -51,12 +51,17 @@
             tr:nth-child(odd) {
                 background-color: #fff;
             }
-            
+
         </style>
+        <script type="text/javascript">
+            function redirectToAbsentStudentsPage() {
+                window.location.href = "absent";
+            }
+        </script>
     </head>
     <body>
         <h1>Điểm Danh Sinh Viên</h1>
-        <form action="processAttendance.jsp" method="post">
+        <form action="absent" method="post">
             <table>
                 <tr>
                     <th>Name</th>
@@ -68,6 +73,10 @@
                         <td>${s.name}</td>
                         <td>${s.id}</td>
                         <td>
+                            <input type="hidden" name="id" value="${s.id}">
+                            <input type="checkbox" name="attendance" ${s.attendance ? 'checked="checked"' : ''}>
+                        </td>
+                        <td>
                             <input type="radio" id="attendance_${s.id}" name="attendance_${s.id}" value="Present" checked>
                             <label for="attendance_${s.id}">Present</label>
                             <input type="radio" id="absent_${s.id}" name="attendance_${s.id}" value="Absent">
@@ -77,7 +86,7 @@
                 </c:forEach>
             </table>
             <br>
-            <input type="submit" value="Gửi Điểm Danh">
+            <input type="submit" onclick="redirectToAbsentStudentsPage()">
         </form>
     </body>
 </html>

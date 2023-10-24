@@ -29,14 +29,7 @@ public class TakeAttendanceController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        StudentDBContext db = new StudentDBContext();
-        ArrayList<Students> students = db.list();
-        request.setAttribute("students", students);
-        request.getRequestDispatcher("view/takeAttendance.jsp").forward(request, response);
-
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -50,7 +43,10 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        StudentDBContext db = new StudentDBContext();
+        ArrayList<Students> students = db.list();
+        request.setAttribute("students", students);
+        request.getRequestDispatcher("view/takeAttendance.jsp").forward(request, response);
     }
 
     /**
@@ -64,7 +60,6 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

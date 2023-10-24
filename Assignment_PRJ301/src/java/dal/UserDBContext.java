@@ -20,7 +20,7 @@ public class UserDBContext extends DBContext<User> {
     @Override
     public User get(User model) {
         try {
-            String sql = "SELECT username,displayname FROM [User]\n"
+            String sql = "SELECT username,displayname FROM [Users]\n"
                     + "WHERE username = ? AND [password] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, model.getUsername());

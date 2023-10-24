@@ -1,133 +1,95 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
+            /* styles.css */
+.form-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-            th, td {
-                border: 1px solid #dddddd;
-                text-align: center;
-                padding: 8px;
-            }
+input[type="date"] {
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-            th {
-                background-color: #f2f2f2;
-            }
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-            select {
-                width: 100%;
-            }
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
 
-            .online-indicator {
-                display: inline-block;
-                background-color: #4CAF50;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                margin-right: 5px;
-            }
+table, th, td {
+    border: 1px solid #000;
+}
 
-            .online-text a {
-                color: #4CAF50;
-                font-weight: bold;
-            }
+td {
+    padding: 10px;
+}
 
-            .label {
-                padding: 3px 6px;
-                margin-left: 5px;
-                text-decoration: none;
-                border-radius: 3px;
-            }
+a {
+    text-decoration: none;
+    color: #007bff;
+}
 
-            .label-warning {
-                background-color: #f0ad4e;
-                color: #fff;
-            }
+a:hover {
+    text-decoration: underline;
+}
 
-            .label-default {
-                background-color: #777;
-                color: #fff;
-            }
-
-            .label-success {
-                background-color: #5bc0de;
-                color: #fff;
-            }
-
-            .label-primary {
-                background-color: #337ab7;
-                color: #fff;
-            }
-
-            .label-danger {
-                background-color: #d9534f;
-                color: #fff;
-            }
-
-            .label-info {
-                background-color: #5bc0de;
-                color: #fff;
-            }
-
-            .blink {
-                animation: blinker 1s linear infinite;
-            }
-
-            @keyframes blinker {
-                50% {
-                    opacity: 0;
-                }
-            }
         </style>
     </head>
     <body>
-        <table>
-            <thead>
+        <form action="timetable" method="GET">
+            <input type="hidden" name="id" value="${param.id}"/>
+            From <input type="date" value="${requestScope.from}" name="from"/> 
+            To <input type="date" value="${requestScope.to}" name="to"/> 
+            <input type="submit" value="View"/>
+        </form>
+        <table border="1px">
+            <tr>
+                <td></td>
+                <c:forEach items="${requestScope.dates}" var="d">
+                    <td>
+                        ${d}
+                    </td>
+                </c:forEach>
+            </tr>
+            <c:forEach items="${requestScope.slots}" var="s" varStatus="loop">
                 <tr>
-                    <th rowspan="2">
-                        <span class="auto-style1"><strong>Year</strong></span>
-                        <select name="ctl00$mainContent$drpYear" onchange="javascript:setTimeout('__doPostBack(\'ctl00$mainContent$drpYear\',\'\')', 0)" id="ctl00_mainContent_drpYear">
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option selected="selected" value="2023">2023</option>
-                            <option value="2024">2024</option>
-                        </select>
-                        <br>
-                        Week
-                        <select name="ctl00$mainContent$drpSelectWeek" onchange="javascript:setTimeout('__doPostBack(\'ctl00$mainContent$drpSelectWeek\',\'\')', 0)" id="ctl00_mainContent_drpSelectWeek">
-                            <option value="1">02/01 To 08/01</option>
-                            <!-- Add other week options here -->
-                        </select>
-                    </th>
-                    <th align="center">Mon</th>
-                    <th align="center">Tue</th>
-                    <th align="center">Wed</th>
-                    <th align="center">Thu</th>
-                    <th align="center">Fri</th>
-                    <th align="center">Sat</th>
-                    <th align="center">Sun</th>
+                    <td>${s.id}-${s.description}</td>
+                    <c:forEach items="${requestScope.dates}" var="d">
+                        <td>
+                            <c:forEach items="${requestScope.sessions}" var="k">
+                                <c:if test="${k.date eq d and k.slot.id eq s.id}">
+                                    <a href="att?id=${k.id}">
+                                        ${k.group.name}-${k.group.subject.name}-${k.room.id}
+                                    </a>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                    </c:forEach>
                 </tr>
-                <tr>
-                    <th align="center">09/10</th>
-                    <th align="center">10/10</th>
-                    <th align="center">11/10</th>
-                    <th align="center">12/10</th>
-                    <th align="center">13/10</th>
-                    <th align="center">14/10</th>
-                    <th align="center">15/10</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Slot 0 </td>
-                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 1 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 2 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 3 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 4 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 5 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 6 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 7 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 8 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 9 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 10 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 11 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Slot 12 </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            </c:forEach>
 
-            </tbody>
         </table>
     </body>
 </html>

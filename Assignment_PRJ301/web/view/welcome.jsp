@@ -40,8 +40,7 @@
     <nav>
         <a href="schedule">Chức Năng 1</a>
         <a href="attendance">Chức Năng 2</a>
-        <a href="chucnang3.jsp">Chức Năng 3</a>
-        <!-- Thêm các liên kết khác tại đây -->
+        <a href="logout">Logout</a>
     </nav>
 </body>
 </html>

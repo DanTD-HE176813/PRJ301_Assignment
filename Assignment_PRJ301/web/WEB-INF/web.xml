@@ -9,6 +9,10 @@
         <servlet-class>controller.ViewScheduleController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>TakeAttendanceController</servlet-name>
         <servlet-class>controller.TakeAttendanceController</servlet-class>
     </servlet>
@@ -19,6 +23,10 @@
     <servlet-mapping>
         <servlet-name>ViewScheduleController</servlet-name>
         <url-pattern>/schedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TakeAttendanceController</servlet-name>
