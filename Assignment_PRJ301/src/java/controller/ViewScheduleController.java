@@ -6,7 +6,7 @@ package controller;
 
 import dal.SessionDBContext;
 import dal.TimeSlotDBContext;
-import dal.User;
+import objects.User;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
