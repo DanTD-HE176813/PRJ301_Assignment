@@ -37,6 +37,17 @@
         }
     </style>
 </head>
+
+<script>
+    function TinChuanChuaA() {
+        var form = document.getElementById("attendanceForm");
+        
+        form.action = "login.jsp";
+
+        form.submit();
+    }
+</script>
+
 <body>
     <h1>Attendance Form</h1>
     <p>
@@ -68,7 +79,7 @@
             </c:forEach>
         </table>
         <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
-        <input type="submit" id="saveButton" value="Save" />
+        <input type="submit" id="saveButton" value="Save" onclick="TinChuanChuaA()" />
     </form>
 </body>
 </html>
