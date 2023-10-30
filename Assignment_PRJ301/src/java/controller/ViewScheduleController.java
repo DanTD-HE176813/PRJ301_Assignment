@@ -11,6 +11,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ public class ViewScheduleController extends BasedRequiredAuthenticationControlle
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         int id = user.getId();
         request.setAttribute("id", id);
         String s_from = request.getParameter("from");
@@ -52,13 +54,15 @@ public class ViewScheduleController extends BasedRequiredAuthenticationControlle
 
         SessionDBContext sesDB = new SessionDBContext();
         ArrayList<Session> sessions = sesDB.getSessions(id, from, to);
-
+        
+        session.setAttribute("session", sessions);
+        
         request.setAttribute("slots", slots);
         request.setAttribute("dates", dates);
         request.setAttribute("from", from);
         request.setAttribute("to", to);
         request.setAttribute("sessions", sessions);
-
+        
         request.getRequestDispatcher("view/schedule.jsp").forward(request, response);
     }
 

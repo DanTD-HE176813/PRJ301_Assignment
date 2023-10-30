@@ -2,91 +2,73 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f2f2f2;
-                margin: 0;
-                padding: 0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Form</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-            h1 {
-                text-align: center;
-                margin-top: 20px;
-            }
+        table, th, td {
+            border: 1px solid black;
+        }
 
-            table {
-                width: 80%;
-                margin: 0 auto;
-                background-color: #fff;
-                border-collapse: collapse;
-                border-radius: 5px;
-            }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
 
-            th {
-                background-color: #4287f5;
-                color: #fff;
-                padding: 10px;
-            }
+        th {
+            background-color: #f0f0f0;
+        }
 
-            td {
-                padding: 10px;
-            }
+        input[type="radio"] {
+            vertical-align: middle;
+        }
 
-            input[type="radio"] {
-                margin-right: 5px;
-            }
+        input[type="text"] {
+            width: 100%;
+        }
 
-            label {
-                font-weight: bold;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            tr:nth-child(odd) {
-                background-color: #fff;
-            }
-
-        </style>
-        <script type="text/javascript">
-            function redirectToAbsentStudentsPage() {
-                window.location.href = "absent";
-            }
-        </script>
-    </head>
-    <body>
-        <h1>Điểm Danh Sinh Viên</h1>
-        <form action="absent" method="post">
-            <table>
+        #saveButton {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance Form</h1>
+    <p>
+        Session: ${requestScope.ses.group.name} - ${requestScope.ses.group.subject.name} - Room ${requestScope.ses.room.id}
+    </p>
+    <form action="attendance" method="POST">
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Taking Time</th>
+            </tr>
+            <c:forEach items="${requestScope.students}" var="a">
                 <tr>
-                    <th>Name</th>
-                    <th>ID</th>
-                    <th>Điểm danh</th>
+                    <input type="hidden" value="${a.student.id}" name="stuid" />
+                    <td>${a.student.name}</td>
+                    <td>
+                        <input type="radio" id="absent_${a.student.id}" name="status${a.student.id}" value="absent"
+                            <c:if test="${!a.status}">checked="checked"</c:if> />
+                        <label for="absent_${a.student.id}">Absent</label>
+                        <input type="radio" id="present_${a.student.id}" name="status${a.student.id}" value="present"
+                            <c:if test="${a.status}">checked="checked"</c:if> />
+                        <label for="present_${a.student.id}">Present</label>
+                    </td>
+                    <td><input type="text" value="${a.description}" name="description${a.student.id}" /></td>
+                    <td>${a.datetime}</td>
                 </tr>
-                <c:forEach items="${requestScope.students}" var="s">
-                    <tr>
-                        <td>${s.name}</td>
-                        <td>${s.id}</td>
-                        <td>
-                            <input type="hidden" name="id" value="${s.id}">
-                            <input type="checkbox" name="attendance" ${s.attendance ? 'checked="checked"' : ''}>
-                        </td>
-                        <td>
-                            <input type="radio" id="attendance_${s.id}" name="attendance_${s.id}" value="Present" checked>
-                            <label for="attendance_${s.id}">Present</label>
-                            <input type="radio" id="absent_${s.id}" name="attendance_${s.id}" value="Absent">
-                            <label for="absent_${s.id}">Absent</label>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-            <br>
-            <input type="submit" onclick="redirectToAbsentStudentsPage()">
-        </form>
-    </body>
+            </c:forEach>
+        </table>
+        <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
+        <input type="submit" id="saveButton" value="Save" />
+    </form>
+</body>
 </html>
