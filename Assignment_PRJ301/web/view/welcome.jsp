@@ -38,8 +38,8 @@
         <h1>FPT University Academic Portal</h1>
     </header>
     <nav>
-        <a href="schedule">Chức Năng 1</a>
-        <a href="attendance">Chức Năng 2</a>
+        <a href="schedule">Schedule</a>
+        <a href="attendance">Take Attendance</a>
         <a href="logout">Logout</a>
     </nav>
 </body>

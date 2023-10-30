@@ -7,10 +7,8 @@ package objects;
 import dal.IBaseModel;
 import java.util.ArrayList;
 
-/**
- *
- * @author sonnt
- */
+
+
 public class Instructor implements IBaseModel{
     private int id;
     private String name;

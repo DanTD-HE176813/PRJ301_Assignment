@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import dal.User;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -20,6 +22,7 @@ import dal.User;
  */
 
 public class LoginController extends HttpServlet {
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -31,12 +34,13 @@ public class LoginController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         request.getRequestDispatcher("view/login.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -44,23 +48,36 @@ public class LoginController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        int id = 0;
         User param = new User();
         param.setUsername(username);
         param.setPassword(password);
         UserDBContext db = new UserDBContext();
         User loggedUser = db.get(param);
-        if(loggedUser != null)
-        {
+        if (loggedUser != null) {
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("account", loggedUser);
+            
+            String remember = request.getParameter("remember");
+            if (remember != null) {
+                Cookie c_user = new Cookie("user", username);
+                Cookie c_pass = new Cookie("pass", password);
+                Cookie c_id = new Cookie("id", String.valueOf(id));
+                c_user.setMaxAge(24 * 3600);
+                c_pass.setMaxAge(24 * 3600);
+                response.addCookie(c_user);
+                response.addCookie(c_pass);
+                response.addCookie(c_id);
+            }
             request.getRequestDispatcher("view/welcome.jsp").forward(request, response);
-        }
-        else
-        {
+        } else {
             response.getWriter().println("invalid username or password!");
         }
-        
+
     }
 
     /**

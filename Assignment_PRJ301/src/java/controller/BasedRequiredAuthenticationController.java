@@ -28,6 +28,7 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
         } else {
             String user = null;
             String pass = null;
+            int id = -1;
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cooky : cookies) {
@@ -40,6 +41,9 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
                     if (cooky.getName().equals("pass")) {
                         pass = cooky.getValue();
                     }
+                    if (cooky.getName().equals("id")) {
+                        id = Integer.parseInt(cooky.getValue());
+                    }
                 }
             }
             if (user != null && pass != null) {
@@ -47,6 +51,7 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
                 User param = new User();
                 param.setUsername(user);
                 param.setPassword(pass);
+                param.setId(id);
                 account = db.get(param);
                 return account != null;
             } else {
@@ -54,6 +59,7 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
             }
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

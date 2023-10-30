@@ -6,9 +6,9 @@ package controller;
 
 import dal.SessionDBContext;
 import dal.TimeSlotDBContext;
+import dal.User;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.ParseException;
@@ -25,36 +25,17 @@ import static util.DateUtils.getSQLDatesBetween;
  *
  * @author Laptop
  */
-public class ViewScheduleController extends HttpServlet {
+public class ViewScheduleController extends BasedRequiredAuthenticationController {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = user.getId();
+        request.setAttribute("id", id);
         String s_from = request.getParameter("from");
         String s_to = request.getParameter("to");
         ArrayList<Date> dates = new ArrayList<>();
-        if (s_from == null)// this week
-        {
+        if (s_from == null) {
             dates = (ArrayList<Date>) DateUtils.getDatesOfCurrentWeek();
         } else {
             try {
@@ -81,27 +62,13 @@ public class ViewScheduleController extends HttpServlet {
         request.getRequestDispatcher("view/schedule.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

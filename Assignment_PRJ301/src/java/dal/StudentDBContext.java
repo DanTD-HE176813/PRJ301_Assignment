@@ -27,13 +27,13 @@ public class StudentDBContext extends DBContext<Students> {
     public ArrayList<Students> list() {
         ArrayList<Students> students = new ArrayList<>();
         try {
-            String sql = "select sid,s.sname from [Student] as s";
+            String sql = "select stuid,s.stuname from [Student] as s";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Students s = new Students();
-                s.setId(rs.getInt("Sid"));
-                s.setName(rs.getString("Sname"));
+                s.setId(rs.getInt("stuid"));
+                s.setName(rs.getString("stuname"));
                 
                 students.add(s);
             }

@@ -5,8 +5,6 @@
  */
 package dal;
 
-import dal.IBaseModel;
-
 
 /**
  *
@@ -16,6 +14,7 @@ public class User implements IBaseModel {
     private String username;
     private String password;
     private String displayname;
+    private int id;
 
     public String getUsername() {
         return username;
@@ -40,5 +39,15 @@ public class User implements IBaseModel {
     public void setDisplayname(String displayname) {
         this.displayname = displayname;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
 }
