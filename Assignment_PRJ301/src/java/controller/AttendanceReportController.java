@@ -26,24 +26,21 @@ public class AttendanceReportController extends BasedRequiredAuthenticationContr
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-       
+//       int id = user.getId();
+       int id =1;
+        AttendanceDBContext attDb = new AttendanceDBContext();
+        ArrayList<Attendance> students = attDb.list(id);
+        request.setAttribute("students", students);
+        request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-        int id = user.getId();
+//        int id = user.getId();
+int id =1;
         AttendanceDBContext attDb = new AttendanceDBContext();
         ArrayList<Attendance> students = attDb.list(id);
         request.setAttribute("students", students);
-        
-        
-        
-        
-        
-        
-//        AttendanceDBContext att = new AttendanceDBContext();
-//        ArrayList<Attendance> students = att.list(id);
-//        request.setAttribute("students", students);
         request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
     }
 

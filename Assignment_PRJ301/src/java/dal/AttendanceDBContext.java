@@ -96,17 +96,15 @@ public class AttendanceDBContext extends DBContext<Attendance> {
     public ArrayList<Attendance> list(int id) {
         ArrayList<Attendance> atts = new ArrayList<>();
         try {
-            String sql = "SELECT\n"
-                    + "    s.stuid,\n"
-                    + "    s.stuname,\n"
-                    + "    ISNULL(a.status, 0) AS status,\n"
-                    + "    ISNULL(a.description, '') AS description,\n"
-                    + "    ISNULL(a.att_datetime, GETDATE()) AS att_datetime\n"
-                    + "FROM\n"
-                    + "    Student s\n"
-                    + "LEFT JOIN\n"
-                    + "    Attendance a ON s.stuid = a.stuid;";
+            String sql = "SELECT s.stuid, s.stuname, ISNULL(a.status, 0) as [status], ISNULL(a.description, '') as [description], ISNULL(a.att_datetime, GETDATE()) as att_datetime\n"
+                    + "FROM [Session] ses\n"
+                    + "INNER JOIN [Group] g ON g.gid = ses.gid\n"
+                    + "INNER JOIN Group_Student gs ON g.gid = gs.gid\n"
+                    + "INNER JOIN Student s ON s.stuid = gs.stuid\n"
+                    + "LEFT JOIN Attendance a ON a.sesid = ses.sesid AND s.stuid = a.stuid\n"
+                    + "WHERE ses.sesid = ? AND ISNULL(a.status, 0) = 0;";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Attendance att = new Attendance();
@@ -115,6 +113,7 @@ public class AttendanceDBContext extends DBContext<Attendance> {
                 s.setId(rs.getInt("stuid"));
                 s.setName(rs.getString("stuname"));
                 att.setStudent(s);
+                ses.setId(id);
                 att.setSession(ses);
                 att.setStatus(rs.getBoolean("status"));
                 att.setDescription(rs.getString("description"));

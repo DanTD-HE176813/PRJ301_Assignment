@@ -38,6 +38,7 @@
         <h1>FPT University Academic Portal</h1>
     </header>
     <nav>
+        <a href="home">Home</a>
         <a href="schedule">Schedule</a>
         <a href="report">Attendance Report</a>
         <a href="logout">Logout</a>

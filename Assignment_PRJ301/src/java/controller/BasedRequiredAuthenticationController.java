@@ -75,7 +75,7 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
         if (isAuthenticated(request)) {
             doGet(request, response, (User) request.getSession().getAttribute("account"));
         } else {
-            response.getWriter().println("access denied!");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
         }
     }
 
@@ -100,7 +100,7 @@ public abstract class BasedRequiredAuthenticationController extends HttpServlet 
             //do business overrided in the sub class
             doPost(request, response, (User) request.getSession().getAttribute("account"));
         } else {
-            response.getWriter().println("access denied!");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
         }
     }
 

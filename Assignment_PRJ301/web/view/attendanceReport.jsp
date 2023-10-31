@@ -84,8 +84,9 @@ function TinChuanChuaA() {
         <h1>FPT University Academic Portal</h1>
     </header>
     <nav>
+        <a href="home">Home</a>
         <a href="schedule">Schedule</a>
-        <a href="attendance">Attendance Report</a>
+        <a href="report">Attendance Report</a>
         <a href="logout">Logout</a>
     </nav>
     
@@ -93,7 +94,7 @@ function TinChuanChuaA() {
     <p>
         Session: ${requestScope.ses.group.name} - ${requestScope.ses.group.subject.name} - Room ${requestScope.ses.room.id}
     </p>
-    <form action="attendanceReport" method="POST">
+    <form action="attendance" method="GET">
         <table>
             <tr>
                 <th>Student</th>
@@ -118,7 +119,8 @@ function TinChuanChuaA() {
                 </tr>
             </c:forEach>
         </table>
-        <input type="submit" id="saveButton" value="Save" />
+        <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
+        <input type="submit" id="saveButton" value="Save" onclick="TinChuanChuaA()" />
     </form>
 </body>
 </html>
