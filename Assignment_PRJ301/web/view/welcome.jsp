@@ -39,7 +39,7 @@
     </header>
     <nav>
         <a href="schedule">Schedule</a>
-        <a href="attendance">Take Attendance</a>
+        <a href="attendance">Attendance Report</a>
         <a href="logout">Logout</a>
     </nav>
 </body>

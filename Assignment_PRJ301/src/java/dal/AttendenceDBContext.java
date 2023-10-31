@@ -15,8 +15,6 @@ import objects.Students;
 import objects.Attendance;
 import objects.Session;
 
-
-
 public class AttendenceDBContext extends DBContext<Attendance> {
 
     public ArrayList<Attendance> getAttendancesBySession(int sesid) {
@@ -31,6 +29,40 @@ public class AttendenceDBContext extends DBContext<Attendance> {
                     + "   INNER JOIN Student s ON s.stuid = gs.stuid\n"
                     + "	  LEFT JOIN Attendance a ON a.sesid = ses.sesid AND s.stuid = a.stuid\n"
                     + "	  WHERE ses.sesid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, sesid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Attendance att = new Attendance();
+                Students s = new Students();
+                Session ses = new Session();
+                s.setId(rs.getInt("stuid"));
+                s.setName(rs.getString("stuname"));
+                att.setStudent(s);
+                ses.setId(sesid);
+                att.setSession(ses);
+                att.setStatus(rs.getBoolean("status"));
+                att.setDescription(rs.getString("description"));
+                att.setDatetime(rs.getTimestamp("att_datetime"));
+                atts.add(att);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendenceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return atts;
+    }
+
+    public ArrayList<Attendance> getAbsentBySession(int sesid) {
+        ArrayList<Attendance> atts = new ArrayList<>();
+        try {
+            String sql = "SELECT s.stuid, s.stuname, ISNULL(a.status, 0) as [status], ISNULL(a.description, '') as [description], ISNULL(a.att_datetime, GETDATE()) as att_datetime\n"
+                    + "FROM [Session] ses\n"
+                    + "INNER JOIN [Group] g ON g.gid = ses.gid\n"
+                    + "INNER JOIN Group_Student gs ON g.gid = gs.gid\n"
+                    + "INNER JOIN Student s ON s.stuid = gs.stuid\n"
+                    + "LEFT JOIN Attendance a ON a.sesid = ses.sesid AND s.stuid = a.stuid\n"
+                    + "WHERE ses.sesid = ? AND ISNULL(a.status, 0) = 0;";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, sesid);
             ResultSet rs = stm.executeQuery();

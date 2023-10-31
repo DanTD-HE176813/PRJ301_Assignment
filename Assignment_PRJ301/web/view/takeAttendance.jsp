@@ -6,6 +6,34 @@
     <meta charset="UTF-8">
     <title>Attendance Form</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #FF6600;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            margin: 10px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
         table {
             border-collapse: collapse;
             width: 100%;
@@ -39,16 +67,22 @@
 </head>
 
 <script>
-    function TinChuanChuaA() {
-        var form = document.getElementById("attendanceForm");
-        
-        form.action = "login.jsp";
-
-        form.submit();
-    }
+function TinChuanChuaA() {
+    window.location.href = "confirm";
+}
 </script>
 
 <body>
+    
+    <header>
+        <h1>FPT University Academic Portal</h1>
+    </header>
+    <nav>
+        <a href="schedule">Schedule</a>
+        <a href="attendance">Attendance Report</a>
+        <a href="logout">Logout</a>
+    </nav>
+    
     <h1>Attendance Form</h1>
     <p>
         Session: ${requestScope.ses.group.name} - ${requestScope.ses.group.subject.name} - Room ${requestScope.ses.room.id}

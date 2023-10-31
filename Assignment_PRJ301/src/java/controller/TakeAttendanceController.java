@@ -54,7 +54,8 @@ public class TakeAttendanceController extends BasedRequiredAuthenticationControl
         }
         SessionDBContext sesDB = new SessionDBContext();
         sesDB.addAttendences(ses);
-        response.getWriter().println("done");
+        request.getRequestDispatcher("/confirm").forward(request, response);
+        
     }
 
     @Override

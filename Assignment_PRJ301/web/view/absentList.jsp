@@ -2,74 +2,101 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f2f2f2;
-                margin: 0;
-                padding: 0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #FF6600;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            margin: 10px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-            h1 {
-                text-align: center;
-                margin-top: 20px;
-            }
+        table, th, td {
+            border: 1px solid black;
+        }
 
-            table {
-                width: 80%;
-                margin: 0 auto;
-                background-color: #fff;
-                border-collapse: collapse;
-                border-radius: 5px;
-            }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
 
-            th {
-                background-color: #4287f5;
-                color: #fff;
-                padding: 10px;
-            }
+        th {
+            background-color: #f0f0f0;
+        }
 
-            td {
-                padding: 10px;
-            }
+        input[type="radio"] {
+            vertical-align: middle;
+        }
 
-            input[type="radio"] {
-                margin-right: 5px;
-            }
+        input[type="text"] {
+            width: 100%;
+        }
 
-            label {
-                font-weight: bold;
-            }
+        #saveButton {
+            margin-top: 10px;
+        }
+    </style>
+</head>
 
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            tr:nth-child(odd) {
-                background-color: #fff;
-            }
-
-        </style>
-    </head>
-    <body>
-        <h1>List of absent students:</h1>
-        <form action="absent" method="post">
-            <table>
+<body>
+    <header>
+        <h1>FPT University Academic Portal</h1>
+    </header>
+    <nav>
+        <a href="schedule">Schedule</a>
+        <a href="attendance">Attendance Report</a>
+        <a href="logout">Logout</a>
+    </nav>
+    <h1>Absent List</h1>
+    <p>
+        Session: ${requestScope.ses.group.name} - ${requestScope.ses.group.subject.name} - Room ${requestScope.ses.room.id}
+    </p>
+    <form action="confirm" method="POST">
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Description</th>
+                <th>Taking Time</th>
+            </tr>
+            <c:forEach items="${requestScope.absentstudents}" var="a">
                 <tr>
-                    <th>Name</th>
-                    <th>ID</th>
+                    <input type="hidden" value="${a.student.id}" name="stuid" />
+                    <td>${a.student.name}</td>
+                    <td><input type="text" value="${a.description}" name="description${a.student.id}" /></td>
+                    <td>${a.datetime}</td>
                 </tr>
-                <c:forEach items="${requestScope.absentStudents}" var="s">
-                    <tr>
-                        <td>${s.name}</td>
-                        <td>${s.id}</td>
-                    </tr>
-                </c:forEach>
-            </table>
-            <br>
-        </form>
-    </body>
+            </c:forEach>
+        </table>
+        <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
+        <input type="submit" id="saveButton" value="Save" />
+    </form>
+</body>
 </html>
