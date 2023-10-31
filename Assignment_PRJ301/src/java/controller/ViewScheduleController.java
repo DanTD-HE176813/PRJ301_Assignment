@@ -32,7 +32,9 @@ public class ViewScheduleController extends BasedRequiredAuthenticationControlle
     protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        int id = user.getId();
+        
+        int id = Integer.parseInt(session.getAttribute("idofuser").toString());
+
         request.setAttribute("id", id);
         String s_from = request.getParameter("from");
         String s_to = request.getParameter("to");
@@ -54,15 +56,15 @@ public class ViewScheduleController extends BasedRequiredAuthenticationControlle
 
         SessionDBContext sesDB = new SessionDBContext();
         ArrayList<Session> sessions = sesDB.getSessions(id, from, to);
-        
+
         session.setAttribute("session", sessions);
-        
+
         request.setAttribute("slots", slots);
         request.setAttribute("dates", dates);
         request.setAttribute("from", from);
         request.setAttribute("to", to);
         request.setAttribute("sessions", sessions);
-        
+
         request.getRequestDispatcher("view/schedule.jsp").forward(request, response);
     }
 

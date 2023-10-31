@@ -6,6 +6,7 @@ package controller;
 
 import dal.AttendanceDBContext;
 import dal.SessionDBContext;
+import dal.StudentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import objects.Attendance;
 import objects.Session;
+import objects.Students;
 import objects.User;
 
 /**
@@ -24,28 +26,47 @@ import objects.User;
  */
 public class AttendanceReportController extends BasedRequiredAuthenticationController {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-//       int id = user.getId();
-       int id =1;
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {;
+        HttpSession session = request.getSession();
+        int id = Integer.parseInt(session.getAttribute("idofuser").toString());
         AttendanceDBContext attDb = new AttendanceDBContext();
-        ArrayList<Attendance> students = attDb.list(id);
+        ArrayList<Students> students = attDb.listStudents(id);
         request.setAttribute("students", students);
+        
+        ArrayList<Attendance> attendanceInfo = attDb.getAttendanceInfo(id);
+        request.setAttribute("attendanceinfo", attendanceInfo);
+        
         request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-//        int id = user.getId();
-int id =1;
-        AttendanceDBContext attDb = new AttendanceDBContext();
-        ArrayList<Attendance> students = attDb.list(id);
-        request.setAttribute("students", students);
-        request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
-    }
-
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
 }

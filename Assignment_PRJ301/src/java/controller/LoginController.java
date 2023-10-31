@@ -61,17 +61,16 @@ public class LoginController extends HttpServlet {
             
             HttpSession session = request.getSession();
             session.setAttribute("account", loggedUser);
-            
+            session.setAttribute("idofuser", loggedUser.getId());
             String remember = request.getParameter("remember");
             if (remember != null) {
                 Cookie c_user = new Cookie("user", username);
                 Cookie c_pass = new Cookie("pass", password);
-                Cookie c_id = new Cookie("id", String.valueOf(id));
                 c_user.setMaxAge(24 * 3600);
                 c_pass.setMaxAge(24 * 3600);
                 response.addCookie(c_user);
                 response.addCookie(c_pass);
-                response.addCookie(c_id);
+                
             }
             request.getRequestDispatcher("view/welcome.jsp").forward(request, response);
         } else {
