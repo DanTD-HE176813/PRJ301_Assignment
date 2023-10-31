@@ -5,6 +5,7 @@
 package dal;
 
 import dal.DBContext;
+import jakarta.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ import objects.Students;
 import objects.Attendance;
 import objects.Session;
 
-public class AttendenceDBContext extends DBContext<Attendance> {
+public class AttendanceDBContext extends DBContext<Attendance> {
 
     public ArrayList<Attendance> getAttendancesBySession(int sesid) {
         ArrayList<Attendance> atts = new ArrayList<>();
@@ -48,7 +49,7 @@ public class AttendenceDBContext extends DBContext<Attendance> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(AttendenceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return atts;
     }
@@ -82,7 +83,7 @@ public class AttendenceDBContext extends DBContext<Attendance> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(AttendenceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return atts;
     }
@@ -90,6 +91,41 @@ public class AttendenceDBContext extends DBContext<Attendance> {
     @Override
     public Attendance get(Attendance model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public ArrayList<Attendance> list(int id) {
+        ArrayList<Attendance> atts = new ArrayList<>();
+        try {
+            String sql = "SELECT\n"
+                    + "    s.stuid,\n"
+                    + "    s.stuname,\n"
+                    + "    ISNULL(a.status, 0) AS status,\n"
+                    + "    ISNULL(a.description, '') AS description,\n"
+                    + "    ISNULL(a.att_datetime, GETDATE()) AS att_datetime\n"
+                    + "FROM\n"
+                    + "    Student s\n"
+                    + "LEFT JOIN\n"
+                    + "    Attendance a ON s.stuid = a.stuid;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Attendance att = new Attendance();
+                Students s = new Students();
+                Session ses = new Session();
+                s.setId(rs.getInt("stuid"));
+                s.setName(rs.getString("stuname"));
+                att.setStudent(s);
+                att.setSession(ses);
+                att.setStatus(rs.getBoolean("status"));
+                att.setDescription(rs.getString("description"));
+                att.setDatetime(rs.getTimestamp("att_datetime"));
+                atts.add(att);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return atts;
     }
 
     @Override

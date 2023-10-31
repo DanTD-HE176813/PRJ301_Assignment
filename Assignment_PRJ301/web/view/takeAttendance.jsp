@@ -79,7 +79,7 @@ function TinChuanChuaA() {
     </header>
     <nav>
         <a href="schedule">Schedule</a>
-        <a href="attendance">Attendance Report</a>
+        <a href="report">Attendance Report</a>
         <a href="logout">Logout</a>
     </nav>
     

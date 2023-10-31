@@ -15,8 +15,6 @@ public class Students implements IBaseModel {
 
     private int id;
     private String name;
-    private Date dob;
-    private boolean gender;
     private boolean attendance = false;
 
     public int getId() {
@@ -33,22 +31,6 @@ public class Students implements IBaseModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public boolean isGender() {
-        return gender;
-    }
-
-    public void setGender(boolean gender) {
-        this.gender = gender;
     }
 
     public boolean isAttendance() {

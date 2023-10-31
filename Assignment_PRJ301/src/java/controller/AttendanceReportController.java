@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.AttendanceDBContext;
@@ -13,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import objects.Attendance;
 import objects.Session;
@@ -22,28 +22,33 @@ import objects.User;
  *
  * @author Laptop
  */
-public class AbsentListController extends BasedRequiredAuthenticationController {
-   
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+public class AttendanceReportController extends BasedRequiredAuthenticationController {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+       
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-        SessionDBContext db = new SessionDBContext();
-        int id = Integer.parseInt(request.getParameter("sesid"));
-        Session ses = db.getSessions(id);
-        request.setAttribute("ses",ses);
+        int id = user.getId();
         AttendanceDBContext attDb = new AttendanceDBContext();
-        ArrayList<Attendance> absent = attDb.getAbsentBySession(id);
-        request.setAttribute("absentstudents", absent);
+        ArrayList<Attendance> students = attDb.list(id);
+        request.setAttribute("students", students);
         
-        request.getRequestDispatcher("view/absentList.jsp").forward(request, response);
+        
+        
+        
+        
+        
+//        AttendanceDBContext att = new AttendanceDBContext();
+//        ArrayList<Attendance> students = att.list(id);
+//        request.setAttribute("students", students);
+        request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
     }
 
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 }

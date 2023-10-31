@@ -1,3 +1,9 @@
+<%-- 
+    Document   : attendanceReport
+    Created on : Oct 31, 2023, 8:30:35 AM
+    Author     : Laptop
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -65,42 +71,54 @@
         }
     </style>
 </head>
+
 <script>
-function TinChuanRoiA() {
-    window.location.href = "home";
+function TinChuanChuaA() {
+    window.location.href = "confirm";
 }
 </script>
+
 <body>
+    
     <header>
         <h1>FPT University Academic Portal</h1>
     </header>
     <nav>
         <a href="schedule">Schedule</a>
-        <a href="report">Attendance Report</a>
+        <a href="attendance">Attendance Report</a>
         <a href="logout">Logout</a>
     </nav>
-    <h1>Absent List</h1>
+    
+    <h1>Attendance Form</h1>
     <p>
         Session: ${requestScope.ses.group.name} - ${requestScope.ses.group.subject.name} - Room ${requestScope.ses.room.id}
     </p>
-    <form action="absentList" method="POST">
+    <form action="attendanceReport" method="POST">
         <table>
             <tr>
                 <th>Student</th>
+                <th>Status</th>
                 <th>Description</th>
                 <th>Taking Time</th>
             </tr>
-            <c:forEach items="${requestScope.absentstudents}" var="a">
+            <c:forEach items="${requestScope.students}" var="a">
                 <tr>
                     <input type="hidden" value="${a.student.id}" name="stuid" />
                     <td>${a.student.name}</td>
+                    <td>
+                        <input type="radio" id="absent_${a.student.id}" name="status${a.student.id}" value="absent"
+                            <c:if test="${!a.status}">checked="checked"</c:if> />
+                        <label for="absent_${a.student.id}">Absent</label>
+                        <input type="radio" id="present_${a.student.id}" name="status${a.student.id}" value="present"
+                            <c:if test="${a.status}">checked="checked"</c:if> />
+                        <label for="present_${a.student.id}">Present</label>
+                    </td>
                     <td><input type="text" value="${a.description}" name="description${a.student.id}" /></td>
                     <td>${a.datetime}</td>
                 </tr>
             </c:forEach>
         </table>
-        <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
-        <input type="button" id="saveButton" value="Back to home" onclick="TinChuanRoiA()" />
+        <input type="submit" id="saveButton" value="Save" />
     </form>
 </body>
 </html>

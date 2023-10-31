@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.AttendenceDBContext;
+import dal.AttendanceDBContext;
 import dal.SessionDBContext;
 import objects.User;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class TakeAttendanceController extends BasedRequiredAuthenticationControl
         Session ses = db.getSessions(id);
         request.setAttribute("ses",ses);
         
-        AttendenceDBContext attDb = new AttendenceDBContext();
+        AttendanceDBContext attDb = new AttendanceDBContext();
         ArrayList<Attendance> atts = attDb.getAttendancesBySession(id);
         request.setAttribute("students", atts);
         request.getRequestDispatcher("view/takeAttendance.jsp").forward(request, response);
