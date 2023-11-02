@@ -36,12 +36,22 @@ public class AttendanceReportController extends BasedRequiredAuthenticationContr
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {;
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         int id = Integer.parseInt(session.getAttribute("idofuser").toString());
+        SessionDBContext ss = new SessionDBContext();
         AttendanceDBContext attDb = new AttendanceDBContext();
+        
+        
+        ArrayList<Session> index = ss.GetIndex(id);
+        request.setAttribute("index", index);
+        
         ArrayList<Students> students = attDb.listStudents(id);
         request.setAttribute("students", students);
+        
+        
+        ArrayList<Session> notYet = ss.notYetSessions(id);
+        request.setAttribute("notyet", notYet);
         
         ArrayList<Attendance> attendanceInfo = attDb.getAttendanceInfo(id);
         request.setAttribute("attendanceinfo", attendanceInfo);

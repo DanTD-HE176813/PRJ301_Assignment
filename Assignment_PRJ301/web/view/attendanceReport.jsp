@@ -80,49 +80,43 @@
             <a href="report">Attendance Report</a>
             <a href="logout">Logout</a>
         </nav>
-        <c:set var="NumOAbsent" value="3" />
-        <c:set var="absentPercent" value="0" />
- 
+        <c:set var="NumOAbsent" value="0" />
+        <c:set var="Total" value="0" />
+
         <form action="attendanceReport" method="POST">
             <table>
                 <tr>
                     <th>Student</th>
-                    <!--                    <th>Attendance</th>
-                                        <th>% (Absent)</th>-->
+                        <c:forEach items="${requestScope.index}" var="i">
+                        <th>Slot ${i.index}</th>
+                        </c:forEach>
+                    <th>% (Absent)</th>
                 </tr>
                 <c:forEach items="${requestScope.students}" var="a">
                     <tr>
-                    <input type="hidden" value="${a.id}" name="astuid"/>
-                    <td>${a.name}</td>
-                    <td> 
+                        <td>${a.name}</td>
                         <c:forEach items="${requestScope.attendanceinfo}" var="b">
-                            <input type="hidden" value="${b.student.id}" name="bstuid"/>
-                            <c:if test="${a.id == b.student.id}">  
-                            <td>${b.status}</td>  
-                        </c:if>
-                    </c:forEach>
-                    </td>
-                    <td> 
-                        <c:forEach items="${requestScope.attendanceinfo}" var="b">
-                            <input type="hidden" value="${b.student.id}" name="bstuid"/>
-                            <c:if test="${a.id == b.student.id}">  
-                                <c:if test="${b.status}">
-                                    <c:set var="NumOAbsent" value="${NumOAbsent - 1}" />  
-                                </c:if>
 
-
+                            <c:if test="${a.id == b.student.id}">  
+                                <td>
+                                    <c:if test="${b.status == 'false'}">Absent <c:set var="NumOAbsent" value="${NumOAbsent + 1}" /> </c:if>
+                                    <c:if test="${b.status == 'true'}">Present</c:if>
+                                    <c:set var="Total" value="${Total + 1}" />
+                                </td>
                             </c:if>
+                        </c:forEach> 
+                        <c:forEach items="${requestScope.notyet}">
+                            <td>  not yet </td> 
+                            <c:set var="Total" value="${Total + 1}" />
                         </c:forEach>
-                        
-                        <c:set var="absentPercent" value="${Math.floor((NumOAbsent / 3)*100)}" /> 
-                    <td>${absentPercent}
-                        <c:set var="NumOAbsent" value="3" />
-                        <c:set var="absentPercent" value="0" /></td> 
-                    </td>
+                        <td>
+                            ${Math.floor((NumOAbsent / Total)*100)}
+                            <c:set var="NumOAbsent" value="0" />
+                            <c:set var="Total" value="0" />
+                        </td> 
                     </tr>
                 </c:forEach>
             </table>
-            <input type="hidden" value="${requestScope.ses.id}" name="sesid" />
             <input type="button" id="saveButton" value="Back to home" onclick="TinChuanRoiA()" />
         </form>
 

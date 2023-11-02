@@ -119,13 +119,12 @@ public class AttendanceDBContext extends DBContext<Attendance> {
     public ArrayList<Attendance> getAttendanceInfo(int sesid) {
         ArrayList<Attendance> atts = new ArrayList<>();
         try {
-            String sql = "SELECT s.stuid, s.stuname, COALESCE(a.status, 0) AS status,\n"
-                    + "    gs.gid\n"
+            String sql = "SELECT s.stuid, s.stuname, COALESCE(a.status, 0) AS status, gs.gid\n"
                     + "FROM [Group_Student] gs\n"
                     + "INNER JOIN [Student] s ON gs.stuid = s.stuid\n"
                     + "LEFT JOIN [Attendance] a ON gs.stuid = a.stuid\n"
                     + "LEFT JOIN [Session] ses ON a.sesid = ses.sesid\n"
-                    + "WHERE gs.gid = ?;";
+                    + "WHERE gs.gid = ? AND ses.isAtt = 1;";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, sesid);
             ResultSet rs = stm.executeQuery();
