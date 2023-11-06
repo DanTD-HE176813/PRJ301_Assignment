@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import objects.Attendance;
+import objects.Group;
 import objects.Session;
 import objects.Students;
 import objects.User;
@@ -49,6 +50,8 @@ public class AttendanceReportController extends BasedRequiredAuthenticationContr
         ArrayList<Students> students = attDb.listStudents(id);
         request.setAttribute("students", students);
         
+        ArrayList<Group> group = ss.listGroup(id);
+        request.setAttribute("group", group);
         
         ArrayList<Session> notYet = ss.notYetSessions(id);
         request.setAttribute("notyet", notYet);
@@ -76,7 +79,30 @@ public class AttendanceReportController extends BasedRequiredAuthenticationContr
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        
+        int id = Integer.parseInt(session.getAttribute("idofuser").toString());
+        SessionDBContext ss = new SessionDBContext();
+        AttendanceDBContext attDb = new AttendanceDBContext();
+        int gid = Integer.parseInt(request.getParameter("gid"));
+        
+        ArrayList<Session> index = ss.GetIndex(id);
+        request.setAttribute("index", index);
+        
+        ArrayList<Students> students = attDb.listStudents(gid);
+        request.setAttribute("students", students);
+        
+        ArrayList<Group> group = ss.listGroup(id);
+        request.setAttribute("group", group);
+        
+        ArrayList<Session> notYet = ss.notYetSessions(gid);
+        request.setAttribute("notyet", notYet);
+        
+        ArrayList<Attendance> attendanceInfo = attDb.getAttendanceInfo(gid);
+        request.setAttribute("attendanceinfo", attendanceInfo);
+        
+        request.getRequestDispatcher("view/attendanceReport.jsp").forward(request, response);
+        
     }
 
 }

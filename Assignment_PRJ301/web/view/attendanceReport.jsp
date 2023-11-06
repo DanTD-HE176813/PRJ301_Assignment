@@ -136,7 +136,6 @@
                 height: auto;
                 padding-left:50px;
             }
-            
         </style>
     </head>
     <script>
@@ -156,43 +155,86 @@
         </nav>
         <c:set var="NumOAbsent" value="0" />
         <c:set var="Total" value="0" />
+        <c:set var="AbsentPercent" value="0" />
 
-        <form action="attendanceReport" method="POST">
-            <table>
-                <tr>
-                    <th>Student</th>
-                        <c:forEach items="${requestScope.index}" var="i">
-                        <th>Slot ${i.index}</th>
-                        </c:forEach>
-                    <th>% (Absent)</th>
-                </tr>
-                <c:forEach items="${requestScope.students}" var="a">
-                    <tr>
-                        <td>${a.name}</td>
-                        <c:forEach items="${requestScope.attendanceinfo}" var="b">
-
-                            <c:if test="${a.id == b.student.id}">  
-                                <td>
-                                    <c:if test="${b.status == 'false'}">Absent <c:set var="NumOAbsent" value="${NumOAbsent + 1}" /> </c:if>
-                                    <c:if test="${b.status == 'true'}">Present</c:if>
-                                    <c:set var="Total" value="${Total + 1}" />
-                                </td>
-                            </c:if>
-                        </c:forEach> 
-                        <c:forEach items="${requestScope.notyet}">
-                            <td>  not yet </td> 
-                            <c:set var="Total" value="${Total + 1}" />
-                        </c:forEach>
-                        <td>
-                            ${Math.floor((NumOAbsent / Total)*100)}
-                            <c:set var="NumOAbsent" value="0" />
-                            <c:set var="Total" value="0" />
-                        </td> 
-                    </tr>
+        <form action="report" method="POST">
+            <label for="classSelector">Select Class:</label>
+            <select name="gid">
+                <c:forEach items="${group}" var="gr">
+                    <option value="${gr.getId()}">${gr.getName()} - ${gr.getIid()}</option>
                 </c:forEach>
-            </table>
-            <input type="button" id="saveButton" value="Back to home" onclick="TinChuanRoiA()" />
+            </select>
+            <input type="submit" value="View">
         </form>
+
+
+        <table>
+
+            <tr>
+                <th>Student</th>
+                    <c:forEach items="${requestScope.index}" var="i">
+                    <th>Slot ${i.index}</th>
+                    </c:forEach>
+                <th>% (Absent)</th>
+            </tr>
+
+            <c:forEach items="${requestScope.students}" var="a">
+
+                <c:forEach items="${requestScope.attendanceinfo}" var="b">
+
+                    <c:if test="${a.id == b.student.id}">  
+                        <c:if test="${b.status == 'false'}"><c:set var="NumOAbsent" value="${NumOAbsent + 1}" /> </c:if>
+                        <c:if test="${b.status == 'true'}"></c:if>
+                        <c:set var="Total" value="${Total + 1}" />
+                    </c:if>
+                </c:forEach> 
+
+                <c:forEach items="${requestScope.notyet}">
+                    <c:set var="Total" value="${Total + 1}" />
+                </c:forEach>
+
+                <c:set var="AbsentPercent" value="${Math.floor((NumOAbsent / Total)*100)}" />
+
+                <tr>
+
+                    <td>
+                        <c:if test="${AbsentPercent > 20}">
+                            <span style="color: red;">${a.name}</span>
+                        </c:if>
+                        <c:if test="${AbsentPercent < 20}">
+                            <span>${a.name}</span>
+                        </c:if>
+                        <c:if test="${AbsentPercent == 20}">
+                            <span style="color: yellow;">${a.name}</span>
+                        </c:if>
+                    </td>
+
+                    <c:forEach items="${requestScope.attendanceinfo}" var="b">
+
+                        <c:if test="${a.id == b.student.id}">  
+                            <td>
+                                <c:if test="${b.status == 'false'}">Absent</c:if>
+                                <c:if test="${b.status == 'true'}">Present</c:if>
+                                </td>
+                        </c:if>
+                    </c:forEach> 
+
+                    <c:forEach items="${requestScope.notyet}">
+                        <td>  not yet </td> 
+                    </c:forEach>
+
+                    <td>
+                        ${AbsentPercent}
+                        <c:set var="AbsentPercent" value="${Math.floor((NumOAbsent / Total)*100)}" />
+                        <c:set var="NumOAbsent" value="0" />
+                        <c:set var="Total" value="0" />
+                    </td> 
+
+                </tr>
+            </c:forEach>
+
+        </table>
+        <input type="button" id="saveButton" value="Back to home" onclick="TinChuanRoiA()" />
 
 
     </body>

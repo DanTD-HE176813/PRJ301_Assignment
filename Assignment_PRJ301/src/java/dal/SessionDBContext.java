@@ -116,6 +116,24 @@ public class SessionDBContext extends DBContext<Session> {
         return sessions;
     }
 
+    public ArrayList<Group> listGroup(int iid) {
+        ArrayList<Group> group = new ArrayList<>();
+        try {
+            String sql = "select [G].[gid], [G].[gname], [S].[subname] from [Group] G \n"
+                    + "LEFT JOIN [Subject] S ON [G].[subid] = [S].[subid]\n"
+                    + "LEFT JOIN [Instructor] I ON [G].[sup_iis] = [I].[iid]\n"
+                    + "WHERE [I].[iid] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, iid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                group.add(new Group(rs.getInt(1), rs.getString(2),rs.getString(3)));
+            }
+        } catch (Exception e) {
+        }
+        return group;
+    }
+
     public ArrayList<Session> GetIndex(int gid) {
         ArrayList<Session> sessions = new ArrayList<>();
         try {
@@ -134,7 +152,7 @@ public class SessionDBContext extends DBContext<Session> {
         }
         return sessions;
     }
-    
+
     public Session getSessions(int sesid) {
         try {
             String sql = "SELECT  \n"
